@@ -1,0 +1,13 @@
+{
+    "title": "Starling Bank",
+    "config": {
+      "step": {
+        "init": {
+          "title": "Input credentials",
+          "data": {
+            "token": "Token"
+          }
+        }
+      }
+    }
+  }

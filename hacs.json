@@ -1,0 +1,7 @@
+{
+    "name": "Starling Bank Custom Component",
+    "render_readme": true,
+    "domains": [
+      "sensor"
+    ]
+  }

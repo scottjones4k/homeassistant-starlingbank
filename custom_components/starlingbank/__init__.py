@@ -2,8 +2,6 @@
 from datetime import timedelta
 import logging
 
-import voluptuous as vol
-
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.const import (
     Platform,
@@ -15,38 +13,28 @@ from .const import (
     DOMAIN,
 )
 
+from homeassistant.core import HomeAssistant
+from homeassistant.util import Throttle
+from homeassistant.helpers import entity_registry
+from homeassistant.helpers.typing import ConfigType
 
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = [Platform.SENSOR]
 MIN_TIME_BETWEEN_UPDATES = timedelta(minutes=3)
 
-CONFIG_SCHEMA = vol.Schema(
-    cv.deprecated(DOMAIN),
-    {
-        DOMAIN: vol.Schema(
-            {
-                 vol.Required(CONF_CLIENT_ID): cv.string,
-                 vol.Required(CONF_CLIENT_SECRET): cv.string,
-                 vol.Required(CONF_TOKEN): cv.string,
-                 vol.Optional(CONF_NAME, None): cv.string
-            },
-        )
-    },
-    extra=vol.ALLOW_EXTRA,
-)
-
 class StarlingData:
     """Get the latest data and update the states."""
 
     def __init__(self, config):
         """Init the starling data object."""
-
+        from starlingbank import StarlingAccount
+        
         self.config = config
         self.available = False
         self.spaces = []
         self.starling_account = StarlingAccount(
-            config[CONF_TOKEN], sandbox=config[CONF_SANDBOX]
+            config[CONF_TOKEN]
         )
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
@@ -71,9 +59,33 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     return True
 
-def create_and_update_instance(entry: ConfigEntry) -> PlaidData:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Set up Starling from a config entry."""
+
+    instance = await hass.async_add_executor_job(create_and_update_instance, entry)
+
+    entry.async_on_unload(entry.add_update_listener(update_listener))
+
+    hass.data.setdefault(DOMAIN, {})
+
+    hass.data[DOMAIN][entry.entry_id] = instance
+
+    hass.config_entries.async_setup_platforms(entry, PLATFORMS)
+
+    return True
+
+
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Unload a config entry."""
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if unload_ok:
+        hass.data[DOMAIN].pop(entry.entry_id)
+
+    return unload_ok
+
+def create_and_update_instance(entry: ConfigEntry) -> StarlingData:
     """Create and update a Starling instance."""
-    instance = PlaidData(entry.data)
+    instance = StarlingData(entry.data)
     instance.update()
     return instance
 

@@ -1,3 +1,3 @@
 """Constants used for Plaid."""
 
-DOMAIN = "starling"
+DOMAIN = "starlingbank"

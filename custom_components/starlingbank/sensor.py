@@ -61,7 +61,22 @@ ACCOUNT_SENSORS = (
     ),
 )
 SPACE_SENSORS = (
-    
+    StarlingSensorEntityDescription(
+        key="total_saved",
+        translation_key="total_saved",
+        value_fn=lambda data: data.total_saved_minor_units / 100,
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement="GBP",
+        suggested_display_precision=2,
+    ),
+    StarlingSensorEntityDescription(
+        key="target_amount",
+        translation_key="target_amount",
+        value_fn=lambda data: (data.target_minor_units or 0) / 100,
+        device_class=SensorDeviceClass.MONETARY,
+        native_unit_of_measurement="GBP",
+        suggested_display_precision=2,
+    ),
 )
 
 async def async_setup_entry(

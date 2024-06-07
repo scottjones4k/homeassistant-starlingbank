@@ -17,6 +17,12 @@
       },
       "effective_balance": {
         "name": "Effective balance"
+      },
+      "total_saved": {
+        "name": "Total saved"
+      },
+      "target_amount": {
+        "name": "Target amount"
       }
     }
   }

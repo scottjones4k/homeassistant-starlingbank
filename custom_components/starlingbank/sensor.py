@@ -5,12 +5,14 @@ from .starling_update_coordinator import StarlingUpdateCoordinator
 from typing import Any
 from collections.abc import Callable
 from dataclasses import dataclass
+import voluptuous as vol
 
 from homeassistant.components.sensor import SensorEntity, SensorStateClass, SensorDeviceClass, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_ATTRIBUTION
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers import entity_platform
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
@@ -19,6 +21,8 @@ from homeassistant.exceptions import HomeAssistantError
 
 from .const import (
     DOMAIN,
+    SERVICE_SPACE_DEPOSIT,
+    SERVICE_SPACE_WITHDRAW
 )
 from .entity import StarlingBaseEntity
 
@@ -36,6 +40,10 @@ ATTR_NATIVE_BALANCE = "Balance in native currency"
 DEFAULT_COIN_ICON = "mdi:cash"
 
 ATTRIBUTION = "Data provided by Starling bank"
+
+POT_SERVICE_SCHEMA = {
+    vol.Required('amount_in_minor_units'): vol.All(vol.Coerce(int), vol.Range(0, 65535)),
+}
 
 @dataclass(frozen=True, kw_only=True)
 class StarlingSensorEntityDescription(SensorEntityDescription):
@@ -120,6 +128,20 @@ async def async_setup_entry(
     ]
 
     async_add_entities(accounts + spaces)
+
+    platform = entity_platform.async_get_current_platform()
+
+    platform.async_register_entity_service(
+        SERVICE_SPACE_DEPOSIT,
+        POT_SERVICE_SCHEMA,
+        "space_deposit",
+    )
+
+    platform.async_register_entity_service(
+        SERVICE_SPACE_WITHDRAW,
+        POT_SERVICE_SCHEMA,
+        "space_withdraw",
+    )
 
 class StarlingSensor(StarlingBaseEntity, SensorEntity):
     """Representation of a Balance sensor."""

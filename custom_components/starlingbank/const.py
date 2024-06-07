@@ -1,3 +1,3 @@
-"""Constants used for Plaid."""
+"""Constants used for starlingbank."""
 
 DOMAIN = "starlingbank"

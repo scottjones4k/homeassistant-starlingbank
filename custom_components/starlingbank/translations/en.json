@@ -10,6 +10,28 @@
       }
     }
   },
+  "services": {
+    "space_deposit": {
+      "name": "Space Deposit",
+      "description": "Deposits money into a space.",
+      "fields": {
+        "amount_in_minor_units": {
+          "name": "Amount in minor units",
+          "description": "The amount of money to deposit in minor units."
+        }
+      }
+    },
+    "space_withdraw": {
+      "name": "Space Withdraw",
+      "description": "Withdraw money from a space.",
+      "fields": {
+        "amount_in_minor_units": {
+          "name": "Amount in minor units",
+          "description": "The amount of money to withdraw in minor units."
+        }
+      }
+    }
+  },
   "entity": {
     "sensor": {
       "cleared_balance": {

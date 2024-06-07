@@ -45,3 +45,9 @@ class StarlingUpdateCoordinator(DataUpdateCoordinator):
         #     raise ConfigEntryAuthFailed from err
         # except ApiError as err:
         #     raise UpdateFailed(f"Error communicating with API: {err}")
+
+    async def space_deposit(self, uid, amount_in_minor_units):
+        await self.hass.async_add_executor_job(self._starling_client.space_deposit, uid, amount_in_minor_units)
+
+    async def space_withdraw(self, uid, amount_in_minor_units):
+        await self.hass.async_add_executor_job(self._starling_client.space_withdraw, uid, amount_in_minor_units)

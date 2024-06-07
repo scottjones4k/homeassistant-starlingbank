@@ -1,0 +1,24 @@
+space_deposit:
+  target:
+    entity:
+      integration: starlingbank
+      domain: sensor
+  fields:
+    amount_in_minor_units:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 65536
+space_withdraw:
+  target:
+    entity:
+      integration: starlingbank
+      domain: sensor
+  fields:
+    amount_in_minor_units:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 65536

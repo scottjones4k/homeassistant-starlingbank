@@ -21,3 +21,9 @@ class StarlingData:
         result = dict(self.spaces)
         result['MASTER'] = StarlingAccountData(self.starling_account)
         return result
+    
+    def space_deposit(self, uid, amount_in_minor_units):
+        self.starling_account.savings_goals[uid].deposit(amount_in_minor_units)
+
+    def space_withdraw(self, uid, amount_in_minor_units):
+        self.starling_account.savings_goals[uid].withdraw(amount_in_minor_units)

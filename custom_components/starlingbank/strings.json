@@ -9,5 +9,15 @@
           }
         }
       }
+    },
+    "entity": {
+      "sensor": {
+        "cleared_balance": {
+          "name": "Cleared balance"
+        },
+        "effective_balance": {
+          "name": "Effective balance"
+        }
+      }
     }
   }

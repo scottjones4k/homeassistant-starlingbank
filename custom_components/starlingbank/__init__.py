@@ -38,14 +38,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Starling from a config entry."""
-    from starlingbank import StarlingAccount
-
-    instance = await hass.async_add_executor_job(create_and_update_instance, entry)
-
-    auth = StarlingAccount(
-        instance[CONF_TOKEN]
-    )
-    client = StarlingData(auth)
+    client = await hass.async_add_executor_job(create_and_update_instance, entry)
 
     coordinator = StarlingUpdateCoordinator(hass, client)
 

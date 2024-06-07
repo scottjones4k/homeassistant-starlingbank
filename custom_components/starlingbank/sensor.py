@@ -103,7 +103,7 @@ async def async_setup_entry(
         for index, account in coordinator.data.items() if not index.startswith("MASTER")
     ]
 
-    async_add_entities(accounts) + spaces
+    async_add_entities(accounts + spaces)
 
 class StarlingSensor(StarlingBaseEntity, SensorEntity):
     """Representation of a Balance sensor."""

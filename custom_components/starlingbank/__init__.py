@@ -63,6 +63,11 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 def create_and_update_instance(entry: ConfigEntry) -> StarlingData:
     """Create and update a Starling instance."""
+    from starlingbank import StarlingAccount
+
     _LOGGER.debug(entry.data[CONF_TOKEN])
-    instance = StarlingData(entry.data)
+    auth = StarlingAccount(
+        entry.data[CONF_TOKEN]
+    )
+    instance = StarlingData(auth)
     return instance

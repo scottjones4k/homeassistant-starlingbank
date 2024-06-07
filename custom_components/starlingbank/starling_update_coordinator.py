@@ -18,7 +18,7 @@ class StarlingUpdateCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             # Name of the data. For logging purposes.
-            name="Monzo",
+            name="Starling",
             # Polling interval. Will only be polled if there are subscribers.
             update_interval=timedelta(minutes=5),
         )

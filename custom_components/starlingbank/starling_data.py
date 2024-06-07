@@ -7,7 +7,7 @@ class StarlingData:
         self.spaces = []
         self.starling_account = account
 
-    async def async_update_coordinated(self, _listening_idx):
+    def update_coordinated(self, _listening_idx):
         """Get the latest data from starling."""
         self.starling_account.update_balance_data()
         self.starling_account.update_savings_goal_data()

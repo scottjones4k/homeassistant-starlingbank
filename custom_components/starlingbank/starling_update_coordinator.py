@@ -38,7 +38,7 @@ class StarlingUpdateCoordinator(DataUpdateCoordinator):
             # Note: using context is not required if there is no need or ability to limit
             # data retrieved from API.
             listening_idx = set(self.async_contexts())
-            return await self._starling_client.async_update_coordinated(listening_idx)
+            return await self.hass.async_add_executor_job(self._starling_client.async_update_coordinated, listening_idx)
         # except ApiAuthError as err:
         #     # Raising ConfigEntryAuthFailed will cancel future updates
         #     # and start a config flow with SOURCE_REAUTH (async_step_reauth)

@@ -46,7 +46,7 @@ ACCOUNT_SENSORS = (
     StarlingSensorEntityDescription(
         key="cleared_balance",
         translation_key="cleared_balance",
-        value_fn=lambda data: data.cleared_balance / 100,
+        value_fn=lambda data: data.account.cleared_balance / 100,
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement="GBP",
         suggested_display_precision=2,
@@ -54,7 +54,7 @@ ACCOUNT_SENSORS = (
     StarlingSensorEntityDescription(
         key="effective_balance",
         translation_key="effective_balance",
-        value_fn=lambda data: data.effective_balance / 100,
+        value_fn=lambda data: data.account.effective_balance / 100,
         device_class=SensorDeviceClass.MONETARY,
         native_unit_of_measurement="GBP",
         suggested_display_precision=2,
@@ -86,7 +86,7 @@ async def async_setup_entry(
             coordinator,
             entity_description,
             index,
-            "Starling"
+            account.name
         )
         for entity_description in ACCOUNT_SENSORS
         for index, account in coordinator.data.items() if index.startswith("MASTER")

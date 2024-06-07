@@ -1,3 +1,8 @@
+class StarlingAccountData:
+    def __init__(self, data) -> None:
+        self.name = 'Starling'
+        self.account = data
+
 class StarlingData:
     """Get the latest data and update the states."""
 
@@ -14,5 +19,5 @@ class StarlingData:
         self.available = True
         self.spaces = self.starling_account.savings_goals.items()
         result = dict(self.spaces)
-        result['MASTER'] = self.starling_account
+        result['MASTER'] = StarlingAccountData(self.starling_account)
         return result

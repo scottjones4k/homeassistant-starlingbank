@@ -42,7 +42,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     instance = await hass.async_add_executor_job(create_and_update_instance, entry)
 
-    _LOGGER.debug(instance[CONF_TOKEN])
     auth = StarlingAccount(
         instance[CONF_TOKEN]
     )
@@ -71,5 +70,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 def create_and_update_instance(entry: ConfigEntry) -> StarlingData:
     """Create and update a Starling instance."""
+    _LOGGER.debug(entry.data[CONF_TOKEN])
     instance = StarlingData(entry.data)
     return instance

@@ -13,6 +13,6 @@ class StarlingData:
         self.starling_account.update_savings_goal_data()
         self.available = True
         self.spaces = self.starling_account.savings_goals.items()
-        result = self.spaces
+        result = dict(self.spaces)
         result['MASTER'] = self.starling_account
         return result

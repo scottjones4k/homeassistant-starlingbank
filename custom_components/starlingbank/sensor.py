@@ -95,15 +95,6 @@ async def async_setup_entry(
 ) -> None:
     """Set up Plaid sensor platform."""
     coordinator: StarlingUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]["coordinator"]
-    # instance = hass.data[DOMAIN][config_entry.entry_id]
-
-    # entities: list[SensorEntity] = []
-
-    # for balance_type in BALANCE_TYPES:
-    #     entities.append(StarlingBalanceSensor(instance, "Starling", balance_type))
-
-    # for id, space in instance.starling_account.savings_goals.items():
-    #     entities.append(StarlingSpaceSensor(instance, "Starling", id))
 
     accounts = [
         StarlingSensor(

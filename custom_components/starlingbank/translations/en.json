@@ -5,6 +5,7 @@
       "user": {
         "title": "Input credentials",
         "data": {
+          "name": "Name",
           "token": "Token"
         }
       }

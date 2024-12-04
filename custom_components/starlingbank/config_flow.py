@@ -4,6 +4,7 @@ import voluptuous as vol
 from homeassistant.const import CONF_TOKEN, CONF_NAME
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from typing import Any
 
 from .const import (
     DOMAIN,

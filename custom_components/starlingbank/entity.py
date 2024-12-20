@@ -42,7 +42,7 @@ class StarlingBaseEntity(CoordinatorEntity):
             identifiers={(DOMAIN, f'{str(self.idx)}{account_name}')},
             manufacturer="Starling",
             model=device_model,
-            name=f'{account_name}{self.data.name}',
+            name=f'{account_name} {self.data.name}',
         )
 
     @property

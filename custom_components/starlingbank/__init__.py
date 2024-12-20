@@ -7,7 +7,8 @@ from .starling_update_coordinator import StarlingUpdateCoordinator
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.const import (
     Platform,
-    CONF_TOKEN
+    CONF_TOKEN,
+    CONF_NAME
 )
 
 from .const import (
@@ -45,7 +46,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
-        "coordinator": coordinator
+        "coordinator": coordinator,
+        "name": entry.data[CONF_NAME],
     }
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

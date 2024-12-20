@@ -95,13 +95,15 @@ async def async_setup_entry(
 ) -> None:
     """Set up Plaid sensor platform."""
     coordinator: StarlingUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]["coordinator"]
+    name: str = hass.data[DOMAIN][config_entry.entry_id]["name"]
 
     accounts = [
         StarlingSensor(
             coordinator,
             entity_description,
             index,
-            account.name
+            account.name,
+            name
         )
         for entity_description in ACCOUNT_SENSORS
         for index, account in coordinator.data.items() if index.startswith("MASTER")
@@ -112,7 +114,8 @@ async def async_setup_entry(
             coordinator,
             entity_description,
             index,
-            account.name
+            account.name,
+            name
         )
         for entity_description in SPACE_SENSORS
         for index, account in coordinator.data.items() if not index.startswith("MASTER")
@@ -142,17 +145,18 @@ class StarlingSensor(StarlingBaseEntity, SensorEntity):
         coordinator: DataUpdateCoordinator,
         entity_description,
         idx,
-        device_model: str
+        device_model: str,
+        account_name: str
     ) -> None:
         """Initialize the sensor."""
         self.idx = idx
-        super().__init__(coordinator, idx, device_model)
+        super().__init__(coordinator, idx, device_model, account_name)
 
         self._attr_state_class = SensorStateClass.TOTAL
 
         self.entity_description = entity_description
 
-        self._attr_unique_id = f"{self.idx}_{self.entity_description.key}"
+        self._attr_unique_id = f"{self.idx}_{account_name}_{self.entity_description.key}"
 
     @property
     def native_value(self) -> StateType:

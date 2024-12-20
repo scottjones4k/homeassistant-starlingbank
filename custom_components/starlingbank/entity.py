@@ -30,7 +30,8 @@ class StarlingBaseEntity(CoordinatorEntity):
         self,
         coordinator: DataUpdateCoordinator,
         idx,
-        device_model: str
+        device_model: str,
+        account_name: str,
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, context=idx)
@@ -38,10 +39,10 @@ class StarlingBaseEntity(CoordinatorEntity):
 
         self._attr_device_info = DeviceInfo(
             entry_type=DeviceEntryType.SERVICE,
-            identifiers={(DOMAIN, str(self.idx))},
+            identifiers={(DOMAIN, f'{str(self.idx)}{account_name}')},
             manufacturer="Starling",
             model=device_model,
-            name=self.data.name,
+            name=f'{account_name}{self.data.name}',
         )
 
     @property
